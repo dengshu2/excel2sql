@@ -35,7 +35,14 @@ function inferColumnTypes(data: any[][], headers: string[]): string[] {
       }
       
       if (typeof value === 'number' || (!isNaN(Number(value)) && value !== '')) {
-        hasNumber = true
+        // Check if the number is too long (more than 10 digits)
+        const valueStr = String(value)
+        const numericPart = valueStr.replace(/[^0-9]/g, '')
+        if (numericPart.length > 10) {
+          hasString = true
+        } else {
+          hasNumber = true
+        }
       } else {
         hasString = true
       }
@@ -102,13 +109,25 @@ function formatValue(value: any): string {
     return 'NULL'
   }
   
-  // If it's a number, return as is
+  // If it's a number, check length first
   if (typeof value === 'number') {
-    return value.toString()
+    const valueStr = value.toString()
+    const numericPart = valueStr.replace(/[^0-9]/g, '')
+    if (numericPart.length > 10) {
+      // Treat as string if more than 10 digits
+      return `'${valueStr}'`
+    }
+    return valueStr
   }
   
   // Check if string represents a number
   if (typeof value === 'string' && !isNaN(Number(value)) && value.trim() !== '') {
+    const numericPart = value.replace(/[^0-9]/g, '')
+    if (numericPart.length > 10) {
+      // Treat as string if more than 10 digits
+      const stringValue = value.replace(/'/g, "''")
+      return `'${stringValue}'`
+    }
     return Number(value).toString()
   }
   

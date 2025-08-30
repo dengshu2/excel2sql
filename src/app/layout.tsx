@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Excel to Spark SQL Converter',
   description: 'Convert Excel files to Spark SQL INSERT statements with privacy-first client-side processing',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

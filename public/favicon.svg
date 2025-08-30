@@ -1,0 +1,13 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="4" fill="#2563eb"/>
+  <rect x="4" y="6" width="12" height="8" rx="1" fill="#ffffff" stroke="#2563eb" stroke-width="0.5"/>
+  <line x1="6" y1="8" x2="14" y2="8" stroke="#2563eb" stroke-width="0.5"/>
+  <line x1="6" y1="10" x2="14" y2="10" stroke="#2563eb" stroke-width="0.5"/>
+  <line x1="6" y1="12" x2="14" y2="12" stroke="#2563eb" stroke-width="0.5"/>
+  <line x1="8" y1="6" x2="8" y2="14" stroke="#2563eb" stroke-width="0.5"/>
+  <line x1="12" y1="6" x2="12" y2="14" stroke="#2563eb" stroke-width="0.5"/>
+  
+  <path d="M18 10 L22 13 L18 16" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <text x="6" y="24" fill="#ffffff" font-family="monospace" font-size="8" font-weight="bold">SQL</text>
+</svg>

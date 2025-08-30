@@ -20,7 +20,7 @@ export default function ExcelUploader({ onFileUpload, isLoading }: ExcelUploader
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     const file = event.dataTransfer.files?.[0]
-    if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.xls'))) {
+    if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.xls') || file.name.endsWith('.csv'))) {
       onFileUpload(file)
     }
   }
@@ -52,7 +52,7 @@ export default function ExcelUploader({ onFileUpload, isLoading }: ExcelUploader
         <input
           ref={fileInputRef}
           type="file"
-          accept=".xlsx,.xls"
+          accept=".xlsx,.xls,.csv"
           onChange={handleFileChange}
           className="hidden"
           disabled={isLoading}
@@ -71,10 +71,10 @@ export default function ExcelUploader({ onFileUpload, isLoading }: ExcelUploader
               </svg>
             </div>
             <p className="text-lg font-medium text-gray-900">
-              Drop your Excel file here
+              Drop your Excel or CSV file here
             </p>
             <p className="text-gray-600">
-              or click to browse (.xlsx, .xls)
+              or click to browse (.xlsx, .xls, .csv)
             </p>
             <p className="text-sm text-gray-500">
               Maximum file size: 10MB
