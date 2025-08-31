@@ -34,3 +34,6 @@ next-env.d.ts
 
 # Playwright MCP
 .playwright-mcp/
+
+# Claude Code settings
+.claude/

@@ -77,7 +77,7 @@ src/
 
 ## 📖 使用方法 How to Use
 
-1. **上传文件 Upload**: 拖拽或选择 Excel 文件
+1. **上传文件 Upload**: 拖拽或选择 Excel，csv 文件
 2. **预览数据 Preview**: 查看解析的数据和列标题
 3. **配置表名 Configure**: 设置 SQL 表名
 4. **生成 SQL Generate**: 获取 Spark SQL 语句
@@ -100,12 +100,12 @@ INSERT INTO my_table (`id`, `name`, `age`, `gender`) VALUES
 
 ## 🔧 开发命令 Development Commands
 
-| 命令 Command | 描述 Description |
-|-------------|-----------------|
-| `npm run dev` | 启动开发服务器 Start development server |
-| `npm run build` | 构建生产版本 Build for production |
-| `npm run start` | 启动生产服务器 Start production server |
-| `npm run lint` | 运行代码检查 Run ESLint |
+| 命令 Command    | 描述 Description                        |
+| --------------- | --------------------------------------- |
+| `npm run dev`   | 启动开发服务器 Start development server |
+| `npm run build` | 构建生产版本 Build for production       |
+| `npm run start` | 启动生产服务器 Start production server  |
+| `npm run lint`  | 运行代码检查 Run ESLint                 |
 
 ## 🎯 核心功能 Core Features
 
