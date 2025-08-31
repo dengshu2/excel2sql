@@ -10,7 +10,7 @@ export function generateSparkSQL(data: any[][], headers: string[], tableName: st
   const createTableSQL = generateCreateTable(tableName, headers, columnTypes)
   
   // Generate INSERT statements
-  const insertSQL = generateInsertStatements(tableName, headers, data)
+  const insertSQL = generateInsertStatements(tableName, headers, data, columnTypes)
   
   return `${createTableSQL}\n\n${insertSQL}`
 }
@@ -82,7 +82,7 @@ function generateCreateTable(tableName: string, headers: string[], types: string
   return `CREATE TABLE ${tableName} (\n${columns}\n);`
 }
 
-function generateInsertStatements(tableName: string, headers: string[], data: any[][]): string {
+function generateInsertStatements(tableName: string, headers: string[], data: any[][], columnTypes: string[]): string {
   if (data.length === 0) {
     return ''
   }
@@ -91,7 +91,7 @@ function generateInsertStatements(tableName: string, headers: string[], data: an
   const headersList = sanitizedHeaders.join(', ')
   
   const valuesList = data.map(row => {
-    const values = row.map(cell => formatValue(cell)).join(', ')
+    const values = row.map((cell, index) => formatValue(cell, columnTypes[index])).join(', ')
     return `    (${values})`
   }).join(',\n')
   
@@ -104,34 +104,49 @@ function sanitizeColumnName(name: string): string {
     .replace(/^[0-9]/, '_$&') // Prefix with underscore if starts with number
 }
 
-function formatValue(value: any): string {
+function formatValue(value: any, columnType?: string): string {
   if (value === null || value === undefined || value === '') {
     return 'NULL'
   }
   
-  // If it's a number, check length first
+  // If column type is STRING, always wrap in quotes (except NULL)
+  if (columnType === 'STRING') {
+    const stringValue = String(value).replace(/'/g, "''")
+    return `'${stringValue}'`
+  }
+  
+  // For numeric columns (INT, DOUBLE), format as numbers
+  if (columnType === 'INT' || columnType === 'DOUBLE') {
+    if (typeof value === 'number') {
+      return value.toString()
+    }
+    if (typeof value === 'string' && !isNaN(Number(value)) && value.trim() !== '') {
+      return Number(value).toString()
+    }
+    // If can't parse as number, treat as string
+    const stringValue = String(value).replace(/'/g, "''")
+    return `'${stringValue}'`
+  }
+  
+  // Fallback logic for backward compatibility (when columnType is not provided)
   if (typeof value === 'number') {
     const valueStr = value.toString()
     const numericPart = valueStr.replace(/[^0-9]/g, '')
     if (numericPart.length > 10) {
-      // Treat as string if more than 10 digits
       return `'${valueStr}'`
     }
     return valueStr
   }
   
-  // Check if string represents a number
   if (typeof value === 'string' && !isNaN(Number(value)) && value.trim() !== '') {
     const numericPart = value.replace(/[^0-9]/g, '')
     if (numericPart.length > 10) {
-      // Treat as string if more than 10 digits
       const stringValue = value.replace(/'/g, "''")
       return `'${stringValue}'`
     }
     return Number(value).toString()
   }
   
-  // For strings, escape single quotes and wrap in single quotes
   const stringValue = String(value).replace(/'/g, "''")
   return `'${stringValue}'`
 }
